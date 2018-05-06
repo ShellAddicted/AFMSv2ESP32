@@ -1,3 +1,11 @@
+/*
+	Forked & Ported to ESP32 (esp-idf) by ShellAddicted
+	GitHub: https://github.com/ShellAddicted
+
+	based on:
+	https://github.com/adafruit/Adafruit_Motor_Shield_V2_Library
+*/
+
 #include "esp_log.h"
 #include "Adafruit_MotorShield.h"
 
