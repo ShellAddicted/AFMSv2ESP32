@@ -66,7 +66,7 @@ esp_err_t Adafruit_MS_PWMServoDriver::setPWM(uint8_t num, uint16_t on, uint16_t 
 	i2c_master_write_byte(cmd, off, I2C_MASTER_ACK);
 	i2c_master_write_byte(cmd, (off>>8), I2C_MASTER_ACK);
 	i2c_master_stop(cmd);
-	esp_err_t errx = i2c_master_cmd_begin(_i2c_num, cmd, 1000/portTICK_PERIOD_MS);
+	esp_err_t errx = i2c_master_cmd_begin(_i2c_num, cmd, 10/portTICK_PERIOD_MS);
 	i2c_cmd_link_delete(cmd);
 	return errx;
 }
@@ -77,7 +77,7 @@ uint8_t Adafruit_MS_PWMServoDriver::read8(uint8_t reg){
 	i2c_master_write_byte(cmd, (_i2caddr << 1) | I2C_MASTER_WRITE, I2C_MASTER_ACK);
 	i2c_master_write_byte(cmd, reg, I2C_MASTER_ACK);
 	i2c_master_stop(cmd);
-	i2c_master_cmd_begin(_i2c_num, cmd, 1000/portTICK_PERIOD_MS);
+	i2c_master_cmd_begin(_i2c_num, cmd, 10/portTICK_PERIOD_MS);
 	i2c_cmd_link_delete(cmd);
 
 	uint8_t val;
@@ -86,7 +86,7 @@ uint8_t Adafruit_MS_PWMServoDriver::read8(uint8_t reg){
 	i2c_master_write_byte(cmd, (_i2caddr << 1) | I2C_MASTER_READ, I2C_MASTER_ACK);
 	i2c_master_read_byte(cmd, &val, I2C_MASTER_ACK);
 	i2c_master_stop(cmd);
-	i2c_master_cmd_begin(_i2c_num, cmd, 1000/portTICK_PERIOD_MS);
+	i2c_master_cmd_begin(_i2c_num, cmd, 10/portTICK_PERIOD_MS);
 	i2c_cmd_link_delete(cmd);
 	return val;
 }
@@ -98,7 +98,7 @@ esp_err_t Adafruit_MS_PWMServoDriver::write8(uint8_t reg, uint8_t value){
 	i2c_master_write_byte(cmd, reg, I2C_MASTER_ACK);
 	i2c_master_write_byte(cmd, value, I2C_MASTER_ACK);
 	i2c_master_stop(cmd);
-	esp_err_t errx = i2c_master_cmd_begin(_i2c_num, cmd, 1000/portTICK_PERIOD_MS);
+	esp_err_t errx = i2c_master_cmd_begin(_i2c_num, cmd, 10/portTICK_PERIOD_MS);
 	i2c_cmd_link_delete(cmd);
 	return errx;
 }
