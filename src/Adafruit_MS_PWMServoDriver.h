@@ -27,6 +27,7 @@
 
 #include <cmath> // std::floor
 #include "driver/i2c.h" //ESP32
+#include <exception>
 
 #define PCA9685_SUBADR1 0x2
 #define PCA9685_SUBADR2 0x3
@@ -45,6 +46,17 @@
 #define ALLLED_OFF_L 0xFC
 #define ALLLED_OFF_H 0xFD
 
+class Adafruit_MS_PWMServoDriverException : public std::exception{
+	protected:
+	esp_err_t _error = 0;
+
+	public:
+	Adafruit_MS_PWMServoDriverException(esp_err_t error = 0){_error = error;};
+	virtual const char* what() const throw(){
+		return "Adafruit_MS_PWMServoDriverException";
+	}
+};
+
 class Adafruit_MS_PWMServoDriver {
  public:
   Adafruit_MS_PWMServoDriver(uint8_t addr = 0x40, i2c_port_t i2c_num = I2C_NUM_0);
@@ -58,7 +70,7 @@ class Adafruit_MS_PWMServoDriver {
   i2c_port_t _i2c_num;
 
   uint8_t read8(uint8_t addr);
-  esp_err_t write8(uint8_t addr, uint8_t d);
+  esp_err_t write8(uint8_t addr, uint8_t d, unsigned int timeoutMS);
 };
 
 #endif

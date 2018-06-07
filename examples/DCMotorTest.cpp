@@ -30,47 +30,89 @@ extern "C" void app_main(void){
 
 	// Select which 'port' M1, M2, M3 or M4. In this case, M1
 	Adafruit_DCMotor *myMotor = AFMS.getMotor(1);
-	AFMS.begin();  // create with the default frequency 1.6KHz
-	//AFMS.begin(1000);  // OR with a different frequency, say 1KHz
-  
+	try{
+		AFMS.begin();  // create with the default frequency 1.6KHz
+		//AFMS.begin(1000);  // OR with a different frequency, say 1KHz
+	}
+	catch (Adafruit_MS_PWMServoDriverException& exc){
+		//Setup failed
+	}
 	// Set the speed to start, from 0 (off) to 255 (max speed)
-	myMotor->setSpeed(150);
-	myMotor->run(FORWARD);
-	// turn on motor
-	myMotor->run(RELEASE);
+	try{
+		myMotor->setSpeed(150);
+		myMotor->run(FORWARD);
+		// turn on motor
+		myMotor->run(RELEASE);
+	}
+	catch (Adafruit_MS_PWMServoDriverException& exc){
+		//:-( // eerror
+	}
 
 	while (1){
 		uint8_t i;
   
 		ESP_LOGI(TAG, "tick");
-
-		myMotor->run(FORWARD);
+		try{
+			myMotor->run(FORWARD);
+		}
+		catch (Adafruit_MS_PWMServoDriverException& exc){
+			//:-(
+		}
 		for (i=0; i<255; i++) {
-			myMotor->setSpeed(i);  
+			try{
+				myMotor->setSpeed(i);  
+			}
+			catch (Adafruit_MS_PWMServoDriverException& exc){
+				//:-(
+			}
 			vTaskDelay(10 / portTICK_PERIOD_MS);
 		}
 
 		for (i=255; i!=0; i--) {
-			myMotor->setSpeed(i);  
+			try{
+				myMotor->setSpeed(i);  
+			}
+			catch (Adafruit_MS_PWMServoDriverException& exc){
+				//:-(
+			}
 			vTaskDelay(10 / portTICK_PERIOD_MS);
 		}
 
 		ESP_LOGI(TAG, "tock");
-
-		myMotor->run(BACKWARD);
+		try{
+			myMotor->run(BACKWARD);
+		}
+		catch (Adafruit_MS_PWMServoDriverException& exc){
+			//:-(
+		}
 
 		for (i=0; i<255; i++) {
-			myMotor->setSpeed(i);  
+			try{
+				myMotor->setSpeed(i);  
+			}
+			catch (Adafruit_MS_PWMServoDriverException& exc){
+				//:-(
+			}
 			vTaskDelay(10 / portTICK_PERIOD_MS);
 		}
 		
 		for (i=255; i!=0; i--) {
-			myMotor->setSpeed(i);  
+			try{
+				myMotor->setSpeed(i);  
+			}
+			catch (Adafruit_MS_PWMServoDriverException& exc){
+				//:-(
+			}
 			vTaskDelay(10 / portTICK_PERIOD_MS);
 		}
 
 		ESP_LOGI(TAG, "tech");
-		myMotor->run(RELEASE);
+		try{
+			myMotor->run(RELEASE);
+		}
+		catch (Adafruit_MS_PWMServoDriverException& exc){
+			//:-(
+		}
 		vTaskDelay(1000 / portTICK_PERIOD_MS);
 	}
 }
