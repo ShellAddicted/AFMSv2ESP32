@@ -25,7 +25,7 @@
 #include "Adafruit_MS_PWMServoDriver.h"
 #include <cmath>
 
-i2c_ack_type_t ACK_EN = (i2c_ack_type_t)0x01;
+#define ACK_EN 0x01
 
 Adafruit_MS_PWMServoDriver::Adafruit_MS_PWMServoDriver(uint8_t addr, i2c_port_t i2c_num) {
 	_i2c_num = i2c_num;
@@ -90,7 +90,7 @@ uint8_t Adafruit_MS_PWMServoDriver::read8(uint8_t reg){
 	cmd = i2c_cmd_link_create();
 	i2c_master_start(cmd);
 	i2c_master_write_byte(cmd, (_i2caddr << 1) | I2C_MASTER_READ, ACK_EN);
-	i2c_master_read_byte(cmd, &val, ACK_EN);
+	i2c_master_read_byte(cmd, &val, (i2c_ack_type_t)ACK_EN);
 	i2c_master_stop(cmd);
 	esp_err_t errx = i2c_master_cmd_begin(_i2c_num, cmd, 10/portTICK_PERIOD_MS);
 	i2c_cmd_link_delete(cmd);
